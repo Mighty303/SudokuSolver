@@ -71,7 +71,7 @@ public class Sudoku {
      * @param I Rows
      * @param J Columns
      * @param coord Coordinates of sucessful numbers to backtrack to
-     * @return
+     * @return Next position if the current position valid, else return the same position to remove it
      */
     public static int[][] recurseUtil(int[][] board, int I, int J, List<Integer> coord){
         for (int i = board[I][J] + 1; i <= 9; i++){
