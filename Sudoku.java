@@ -7,7 +7,6 @@ public class Sudoku {
     public static void main(String[] args) {
         //Note that this algorithm works with all possible solutions as long as you increase the stack size
 
-        //EMPTY BOARD
         int[][] board = {
             {0,4,0, 8,0,5, 2,0,0},
             {0,2,0, 0,4,0, 0,5,0},
