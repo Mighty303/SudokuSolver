@@ -1,2 +1,2 @@
 # SudokuSolver
-Wrote a sudoku solve using the recursive backtracking algorithm
+Wrote a sudoku solver using the recursive backtracking algorithm
