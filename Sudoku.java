@@ -5,8 +5,9 @@ import java.util.List;
 public class Sudoku {
     static int backtrackCounter = 0;
     public static void main(String[] args) {
-        //Note that this algorithm works with all possible solutions as long as you increase the stack size
-
+        /**Note that this algorithm works with all possible solutions as long as you increase the stack size
+         Command to increase stack size to 1000mb: java -Xss1000m Sudoku.java
+        */
         int[][] board = {
             {0,4,0, 8,0,5, 2,0,0},
             {0,2,0, 0,4,0, 0,5,0},
