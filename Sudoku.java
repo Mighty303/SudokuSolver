@@ -72,7 +72,7 @@ public class Sudoku {
      * @return
      */
     public static int[][] recurseUtil(int[][] board, int I, int J, List<Integer> coord){
-        //Try numbers from current position to length of board
+        //Try numbers from current position to length of board (1 -> 9)
         for (int i = board[I][J] + 1; i <= board.length; i++){
             if (isCol(board, J, i) && isRow(board, I, i) && isSquare(board, I, J, i)) {
                 coord.add(I);
