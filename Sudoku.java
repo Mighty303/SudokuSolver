@@ -21,13 +21,11 @@ public class Sudoku {
             {0,0,8, 3,5,9, 0,1,0},
             {0,1,9, 0,0,7, 6,0,0}
         };
+        
     
         List<Integer> coordinates = new ArrayList<Integer>();
-        coordinates.add(0);
-        coordinates.add(0);
-
-        printBoard(solve(board, 0, 0, coordinates));
-
+        if (isBoard(board))
+            printBoard(solve(board, 0, 0, coordinates));
     }
 
     /**
@@ -39,11 +37,6 @@ public class Sudoku {
      * @return Solution
      */
     public static int[][] solve(int[][] board, int I, int J, List<Integer> coord) {
-        if (I == 0 && J == 0 && coord.size() == 0) {
-            System.out.println("NO SOLUTION");
-            return board;
-        }
-
         if (I == board.length - 1 && J == board.length)
             J--;
 
@@ -72,10 +65,10 @@ public class Sudoku {
      * @param I Rows
      * @param J Columns
      * @param coord Coordinates of sucessful numbers to backtrack to
-     * @return Next position if the current position valid, else return the same position to remove it
+     * @return
      */
     public static int[][] recurseUtil(int[][] board, int I, int J, List<Integer> coord){
-        for (int i = board[I][J] + 1; i <= 9; i++){
+        for (int i = board[I][J] + 1; i <= board.length; i++){
             if (isCol(board, J, i) && isRow(board, I, i) && isSquare(board, I, J, i)) {
                 coord.add(I);
                 coord.add(J);
@@ -175,6 +168,28 @@ public class Sudoku {
             for (int j = col; j < col + (board.length / 3); j++){
                 if (board[i][j] == num)
                     return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the board is valid
+     * @param board 9x9 grid
+     * @return true if the board is valid, else return false
+     */
+    public static boolean isBoard(int[][] board) {
+        for (int i = 0; i < board.length; i++) {
+            int[] counter = new int[board.length];
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j] == 0) 
+                    continue;
+                counter[board[i][j]-1]++;
+                if (counter[board[i][j]-1] > 1){
+                    printBoard(board);
+                    System.out.println("INVALID BOARD WAS ENTERED");
+                    return false;
+                }
             }
         }
         return true;
