@@ -7,7 +7,7 @@ public class Sudoku {
     public static void main(String[] args) {
         /**Note that this algorithm works with all possible solutions as long as you increase the stack size
          Command to increase stack size to 1000mb: java -Xss1000m Sudoku.java
-         The board below is a working board that doesn't require you to increase the stack size
+         The board below is a working board that doesn't require to increase the stack size
         */
         int[][] board = {
             {0,4,0, 8,0,5, 2,0,0},
@@ -24,7 +24,7 @@ public class Sudoku {
         };
     
         List<Integer> coordinates = new ArrayList<Integer>();
-        if (isBoard(board))
+        if (isBoardRow(board) && isBoardColumn(board))
             printBoard(solve(board, 0, 0, coordinates));
     }
 
@@ -40,7 +40,6 @@ public class Sudoku {
         //Prevents going out of bounds
         if (I == board.length - 1 && J == board.length)
             J--;
-        
         //Check if there is a solution
         if (I == board.length - 1 && (J == board.length - 1 && board[I][J] != 0)){
             System.out.println("SOLUTION HAS BEEN REACHED");
@@ -72,7 +71,7 @@ public class Sudoku {
      * @return
      */
     public static int[][] recurseUtil(int[][] board, int I, int J, List<Integer> coord){
-        //Try numbers from current position to length of board (1 -> 9)
+        //Try numbers from current position to length of board
         for (int i = board[I][J] + 1; i <= board.length; i++){
             if (isCol(board, J, i) && isRow(board, I, i) && isSquare(board, I, J, i)) {
                 coord.add(I);
@@ -183,22 +182,44 @@ public class Sudoku {
     }
 
     /**
-     * Checks if the board is valid
+     * Checks if the rows of the board are valid
      * @param board 9x9 grid
      * @return true if the board is valid, else return false
      */
-    public static boolean isBoard(int[][] board) {
+    public static boolean isBoardRow(int[][] board) {
         for (int i = 0; i < board.length; i++) {
             int[] counter = new int[board.length];
             for (int j = 0; j < board[i].length; j++) {
                 if (board[i][j] == 0) 
                     continue;
-                
+
                 counter[board[i][j]-1]++;
-                
+
                 if (counter[board[i][j]-1] > 1){
                     printBoard(board);
-                    System.out.println("INVALID BOARD WAS ENTERED");
+                    System.out.println("INVALID BOARD");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the columns of the board are valid
+     * @param board 9x9 grid
+     * @return true if the columns are valid, else return false
+     */
+    public static boolean isBoardColumn(int[][] board) {
+        for (int i = 0; i < board[i].length-1; i++) {
+            int[] counter = new int[board.length];
+            for (int j = 0; j < board.length; j++) {
+                if (board[j][i] == 0) 
+                    continue;
+                counter[board[j][i]-1]++;
+                if (counter[board[j][i]-1] > 1){
+                    printBoard(board);
+                    System.out.println("INVALID BOARD");
                     return false;
                 }
             }
