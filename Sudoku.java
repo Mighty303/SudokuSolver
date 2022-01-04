@@ -7,7 +7,7 @@ public class Sudoku {
     public static void main(String[] args) {
         /**Note that this algorithm works with all possible solutions as long as you increase the stack size
          Command to increase stack size to 1000mb: java -Xss1000m Sudoku.java
-         The board below is a working board that doesn't require to increase the stack size
+         The board below is a working board that doesn't require you to increase the stack size
         */
         int[][] board = {
             {0,4,0, 8,0,5, 2,0,0},
