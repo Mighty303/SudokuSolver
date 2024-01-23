@@ -67,32 +67,32 @@ public class Sudoku {
     /**
      * Recursive utility method for solving the algorithm
      * @param board 9x9 grid
-     * @param I Rows
-     * @param J Columns
+     * @param row Rows
+     * @param col Columns
      * @param coord Coordinates of sucessful numbers to backtrack to
      * @return
      */
-    public static int[][] recurseUtil(int[][] board, int I, int J, List<Integer> coord){
+    public static int[][] recurseUtil(int[][] board, int row, int col, List<Integer> coord){
         //Try numbers from current position to length of board
-        for (int i = board[I][J] + 1; i <= board.length; i++){
-            if (isValidPlacement(board, I, J, i)) {
-                coord.add(I);
-                coord.add(J);
-                board[I][J] = i;
-                return solve(board, I, J+1, coord); 
+        for (int i = board[row][col] + 1; i <= board.length; i++){
+            if (isValidPlacement(board, row, col, i)) {
+                coord.add(row);
+                coord.add(col);
+                board[row][col] = i;
+                return solve(board, row, col+1, coord); 
             }
         }
         //Remove the coordinates and backtrack
         backtrackCounter++;
-        board[I][J] = 0;
+        board[row][col] = 0;
 
-        I = coord.get(coord.size() - 2);
-        J = coord.get(coord.size() - 1);
+        row = coord.get(coord.size() - 2);
+        col = coord.get(coord.size() - 1);
 
         coord.remove(coord.size() - 1);
         coord.remove(coord.size() - 1);
 
-        return recurseUtil(board, I, J, coord);
+        return recurseUtil(board, row, col, coord);
     }
 
     /**
@@ -105,30 +105,22 @@ public class Sudoku {
      */
     public static boolean isValidPlacement(int[][] board, int row, int col, int num) {
         // Check the row
-        for (int i = 0; i < board[row].length; i++) {
-            if (board[row][i] == num) {
+        for (int i = 0; i < board[row].length; i++)
+            if (board[row][i] == num)
                 return false;
-            }
-        }
 
         // Check the column
-        for (int i = 0; i < board.length; i++) {
-            if (board[i][col] == num) {
+        for (int i = 0; i < board.length; i++)
+            if (board[i][col] == num)
                 return false;
-            }
-        }
 
         // Check the 3x3 grid
         int startRow = row - row % 3;
         int startCol = col - col % 3;
-        for (int i = startRow; i < startRow + 3; i++) {
-            for (int j = startCol; j < startCol + 3; j++) {
-                if (board[i][j] == num) {
+        for (int i = startRow; i < startRow + 3; i++) 
+            for (int j = startCol; j < startCol + 3; j++) 
+                if (board[i][j] == num) 
                     return false;
-                }
-            }
-        }
-
         return true;
     }
 
