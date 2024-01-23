@@ -101,10 +101,9 @@ public class Sudoku {
      * @return true if the column is valid, else return false
      */
     public static boolean isCol(int[][] board, int col, int num){
-        for (int i = 0; i < board.length; i++){
+        for (int i = 0; i < board.length; i++)
             if (board[i][col] == num)
                 return false;
-        }
         return true;
     }
 
@@ -116,68 +115,30 @@ public class Sudoku {
      * @return true if the row is valid, else return false
      */
     public static boolean isRow(int[][] board, int row, int num){
-        for (int i = 0; i < board[row].length; i++){
+        for (int i = 0; i < board[row].length; i++)
             if (board[row][i] == num)
                 return false;
-        }
         return true;
     }
 
     /**
-     * Checks if each 3x3 grid is valid
-     * @param board 9x9 grid
-     * @param I Rows
-     * @param J Columns
-     * @param num The number we are comparing
-     * @return true if the grid is valid, else return false
+     * Checks if the 3x3 grid containing the cell at (I, J) is valid for the number num.
+     * @param board 9x9 Sudoku board
+     * @param I Row index of the cell
+     * @param J Column index of the cell
+     * @param num The number to be checked
+     * @return true if the grid is valid for num, false otherwise
      */
     public static boolean isSquare(int[][] board, int I, int J, int num) {
-        if (I <= 2 && J <= 2)
-            return validateSquare(board, 0, 0, num);
-        
-        else if (I <= 2 && J >= 3 && J <= 5)
-            return validateSquare(board, 0, 3, num);
-        
-        else if (I <= 2 && J >= 6)
-            return validateSquare(board, 0, 6, num);
-        
-        else if (I >= 3 && I <= 5 && J <= 2)
-            return validateSquare(board, 3, 0, num);
+        // Calculate the top-left corner of the 3x3 grid
+        int startRow = I - I % 3;
+        int startCol = J - J % 3;
 
-        else if (I >= 3 && I <= 5 && J >= 3 && J <= 5)
-            return validateSquare(board, 3, 3, num);
-        
-        else if (I >= 3 && I <= 5 && J >= 6)
-            return validateSquare(board, 3, 6, num);
-        
-        else if (I >= 6 && J <= 2)
-            return validateSquare(board, 6, 0, num);
-        
-        else if (I >= 6 && J >= 3 && J <= 5)
-            return validateSquare(board, 6, 3, num);
-        
-        else if (I >= 6 && J >= 6)
-            return validateSquare(board, 6, 6, num);
-
-        return false;
-    }
-
-    /**
-     * Helper method to validate each square
-     * @param board 9x9 grid
-     * @param row Rows
-     * @param col Columns
-     * @param num The number we are comparing
-     * @return true if the square is valid, else return false
-     */
-    public static boolean validateSquare(int[][] board, int row, int col, int num){
-
-        for (int i = row; i < row + (board.length / 3); i++){
-            for (int j = col; j < col + (board.length / 3); j++){
-                if (board[i][j] == num)
+        // Check the 3x3 grid for the number
+        for (int row = startRow; row < startRow + 3; row++)
+            for (int col = startCol; col < startCol + 3; col++) 
+                if (board[row][col] == num)
                     return false;
-            }
-        }
         return true;
     }
 
