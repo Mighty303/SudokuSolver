@@ -31,36 +31,38 @@ public class Sudoku {
     /**
      * Engine of the algorithm
      * @param board 9x9 grid
-     * @param I Rows
-     * @param J Columns
-     * @param coord Coordinates of sucessful numbers to backtrack to
+     * @param row Row index
+     * @param col Column index
+     * @param coord Coordinates of successful numbers to backtrack to
      * @return Solution
      */
-    public static int[][] solve(int[][] board, int I, int J, List<Integer> coord) {
-        //Prevents going out of bounds
-        if (I == board.length - 1 && J == board.length)
-            J--;
-        //Check if there is a solution
-        if (I == board.length - 1 && (J == board.length - 1 && board[I][J] != 0)){
+    public static int[][] solve(int[][] board, int row, int col, List<Integer> coord) {
+        // Prevents going out of bounds
+        if (row == board.length - 1 && col == board.length)
+            col--;
+
+        // Check if there is a solution
+        if (row == board.length - 1 && (col == board.length - 1 && board[row][col] != 0)) {
             System.out.println("SOLUTION HAS BEEN REACHED");
-            System.out.printf("Backtracks: %d\n",backtrackCounter);
+            System.out.printf("Backtracks: %d\n", backtrackCounter);
             return board;
         }
 
-        //Move to next row
-        if (J == board.length){
-            J = 0;
-            I++;
+        // Move to next row
+        if (col == board.length) {
+            col = 0;
+            row++;
         }
         
-        //We are on the last row
-        if (I == board.length)
-            J++;
+        // We are on the last row
+        if (row == board.length)
+            col++;
         
-        else if (board[I][J] == 0)
-            return recurseUtil(board, I, J, coord);
-        return solve(board, I, J+1, coord);
+        else if (board[row][col] == 0)
+            return recurseUtil(board, row, col, coord);
+        return solve(board, row, col + 1, coord);
     }
+
 
     /**
      * Recursive utility method for solving the algorithm
