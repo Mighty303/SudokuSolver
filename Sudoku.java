@@ -73,7 +73,7 @@ public class Sudoku {
     public static int[][] recurseUtil(int[][] board, int I, int J, List<Integer> coord){
         //Try numbers from current position to length of board
         for (int i = board[I][J] + 1; i <= board.length; i++){
-            if (isCol(board, J, i) && isRow(board, I, i) && isSquare(board, I, J, i)) {
+            if (isValidPlacement(board, I, J, i)) {
                 coord.add(I);
                 coord.add(J);
                 board[I][J] = i;
@@ -92,53 +92,41 @@ public class Sudoku {
 
         return recurseUtil(board, I, J, coord);
     }
-    
-    /**
-     * Checks if the column is valid
-     * @param board 9x9 grid
-     * @param col Column to check
-     * @param num The number we are comparing
-     * @return true if the column is valid, else return false
-     */
-    public static boolean isCol(int[][] board, int col, int num){
-        for (int i = 0; i < board.length; i++)
-            if (board[i][col] == num)
-                return false;
-        return true;
-    }
 
     /**
-     * Checks if the row is valid
-     * @param board 9x9 grid
-     * @param row Row to check
-     * @param num The number we are comparing
-     * @return true if the row is valid, else return false
-     */
-    public static boolean isRow(int[][] board, int row, int num){
-        for (int i = 0; i < board[row].length; i++)
-            if (board[row][i] == num)
-                return false;
-        return true;
-    }
-
-    /**
-     * Checks if the 3x3 grid containing the cell at (I, J) is valid for the number num.
+     * Checks if placing a number in a given cell is valid according to Sudoku rules.
      * @param board 9x9 Sudoku board
-     * @param I Row index of the cell
-     * @param J Column index of the cell
+     * @param row Row index of the cell
+     * @param col Column index of the cell
      * @param num The number to be checked
-     * @return true if the grid is valid for num, false otherwise
+     * @return true if placing num in (row, col) is valid, false otherwise
      */
-    public static boolean isSquare(int[][] board, int I, int J, int num) {
-        // Calculate the top-left corner of the 3x3 grid
-        int startRow = I - I % 3;
-        int startCol = J - J % 3;
+    public static boolean isValidPlacement(int[][] board, int row, int col, int num) {
+        // Check the row
+        for (int i = 0; i < board[row].length; i++) {
+            if (board[row][i] == num) {
+                return false;
+            }
+        }
 
-        // Check the 3x3 grid for the number
-        for (int row = startRow; row < startRow + 3; row++)
-            for (int col = startCol; col < startCol + 3; col++) 
-                if (board[row][col] == num)
+        // Check the column
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][col] == num) {
+                return false;
+            }
+        }
+
+        // Check the 3x3 grid
+        int startRow = row - row % 3;
+        int startCol = col - col % 3;
+        for (int i = startRow; i < startRow + 3; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
+                if (board[i][j] == num) {
                     return false;
+                }
+            }
+        }
+
         return true;
     }
 
